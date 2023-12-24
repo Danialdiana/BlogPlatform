@@ -1,0 +1,51 @@
+<div class="container text-center">
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-6 mt-5">
+      <h1><b>Тіркелу</b></h1>
+
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="form-group">
+        <input type="hidden" formControlName="_id" name="_id">
+        <div class="row mt-5">
+          <div class="input-field col s6">
+            <label>Толық аты-жөніңіз:</label>
+            <input type="text" formControlName="username" class="form-control" placeholder="Enter full name">
+            <div *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched">
+              <small *ngIf="registrationForm.get('username')?.errors?.['required']">Есіміз міндетті!</small>
+              <small *ngIf="registrationForm.get('username')?.errors?.['minlength']">Есіміңіз кем дегенде 3 символдан тұру керек!</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-5">
+          <div class="input-field col s6">
+            <label>Электронды мекен-жай:</label>
+            <input type="email" formControlName="email" class="form-control" placeholder="Enter email">
+            <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
+              <small *ngIf="registrationForm.get('email')?.errors?.['required']">Электронды мекен-жай міндетті!</small>
+              <small *ngIf="registrationForm.get('email')?.errors?.['minlength']">Электронды мекен-жай кем дегенде 3 символдан тұру керек!</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-5">
+          <div class="input-field col s6">
+            <label>Құпия сөз:</label>
+            <input type="password" formControlName="password" class="form-control" placeholder="Enter password">
+            <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
+              <small *ngIf="registrationForm.get('password')?.errors?.['required']">Құпия сөз міндетті!</small>
+              <small *ngIf="registrationForm.get('password')?.errors?.['minlength']">Құпия сөз кем дегенде 6 символдан тұру керек!</small>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="input-field col s12">
+            <button class="btn btn-ouline-secondary right mx-5" type="button" (click)="resetForm()">Тазарту</button>
+            <button class="btn btn-outline-primary right" type="submit" [disabled]="!registrationForm.valid">Тіркелу</button>
+          </div>
+        </div>
+        
+      </form>
+      
+</div>
+</div>
+</div>

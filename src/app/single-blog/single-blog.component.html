@@ -1,0 +1,81 @@
+<div class="container-fluid" id="header">
+	
+	<!-- Hero Section -->
+  <div class="container" id="hero">
+	  <div class="row justify-content-end">
+		  <div class="col-lg-6 hero-img-container">
+			  <div class="hero-img">
+				  <!-- hero img -->
+				  <img [src]="'../assets/' + blog.image" />
+			  </div>
+		  </div>	  		
+
+		  <div class="col-lg-9">
+			  <div class="hero-title">
+				  <h1>{{ blog.title }}</h1>
+			  </div>
+
+		  </div>
+	  </div>
+  </div>
+</div>
+
+
+<!-- Content -->
+<div class="container mt-5 mb-5" id="content">
+<div class="row justify-content-center">
+	<!-- Share buttons -->
+	<div class="col-lg-1 text-left mb-3 fixed" id="social-share">
+		<a class="btn  btn-light m-2" href="#"><i class="fab fa-facebook-f"></i></a>
+		<a class="btn  btn-light m-2" href="#"><i class="fab fa-google"></i></a>
+		<a class="btn  btn-light m-2" href="#"><i class="fab fa-twitter"></i></a>
+  
+	</div>
+
+	<!-- the content -->
+	<div class="col-xl-7 col-lg-10 col-md-12">
+		<p class="lead">{{ blog.content }}</p>
+	</div>
+
+	<div class="col-lg-10 mt-3">
+		<hr>
+	</div>
+</div>
+
+<button (click)="goToUpdateBlog(blog?._id)" class="btn btn-primary mx-3">Жаңарту</button>
+<button (click)="deleteBlog()" class="btn btn-danger">Жою</button>
+
+<div *ngIf="showDeleteConfirmation" class="confirmation-popup">
+<p>Вы уверены, что хотите удалить этот блог?</p>
+<button (click)="confirmDeleteBlog()" class="btn yes">Да</button>
+<button (click)="cancelDeleteBlog()" class="btn no">Отмена</button>
+</div>
+<form [formGroup]="commentForm" (ngSubmit)="onSubmitComment()" class="mt-4">
+<div class="form-group">
+  <label for="content">Пікір:</label>
+  <textarea class="form-control" id="content" formControlName="content" required></textarea>
+</div>
+<button type="submit" class="btn btn-primary">Жіберу</button>
+</form>
+
+<!-- Комментарии -->
+<div class="mt-4 mb-5">
+<div *ngFor="let comment of comments" class="card mb-2">
+  <div class="card-body">
+	<p class="card-text">{{ comment.content }}</p>
+	
+	<!-- Добавим кнопки для редактирования и удаления комментария -->
+	<div *ngIf="!isEditingComment(comment._id)">
+	  <button (click)="fillEditCommentForm(comment._id, comment.content)" class="btn btn-outline-secondary mx-3">Жаңарту</button>
+	  <button (click)="deleteComment(comment._id)" class="btn btn-outline-danger">Жою</button>
+	</div>
+	
+	<!-- Форма для редактирования комментария -->
+	<div *ngIf="isEditingComment(comment._id)">
+	  <textarea class="form-control" [(ngModel)]="editingCommentContent" required></textarea>
+	  <button (click)="editComment(comment._id, editingCommentContent)" class="btn btn-primary">Сақтау</button>
+	  <button (click)="cancelEditComment()" class="btn btn-secondary">Бас тарту</button>
+	</div>
+  </div>
+</div>
+</div>

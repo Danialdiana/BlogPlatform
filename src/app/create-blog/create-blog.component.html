@@ -1,0 +1,36 @@
+<div class="container text-center">
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-6 mt-5">
+      <h1><b>Ой бөлісу</b></h1>
+
+      <form [formGroup]="blogForm" (ngSubmit)="submitBlog()" class="form-group" enctype="multipart/form-data">
+        <div class="row mt-5">
+          <div class="input-field col s6">
+            <label>Тақырып:</label>
+            <input type="text" formControlName="title" class="form-control" placeholder="Тақырыпты енгізіңіз..." id="title">
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="input-field col s6">
+            <label>Контент:</label>
+            <textarea formControlName="content" class="form-control" placeholder="Контент енгізіңіз..." id="content"></textarea>
+          
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="input-field col s6">
+            <label>Сурет:</label>
+            <input type="file" class="form-control"  formControlName="image"  id="image" (change)="onFileSelected($event)"> 
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="input-field col s12">
+            <button class="btn btn-outline-dark right" type="submit">Жариялау</button>
+          </div>
+        </div>
+      </form>
+      
+      
+</div>
+</div>
+</div>
