@@ -26,18 +26,14 @@ export class LoginFormComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      // Используем объект credentials, содержащий email и password
       const credentials = { email, password };
       
       this.authService.loginUser(credentials).subscribe(
         (response) => {
-          // Обработка успешного входа
           console.log('Logged in successfully!', response);
-          // Дополнительная логика после успешного входа, например, перенаправление на другую страницу
-          this.router.navigate(['/main']); // Перенаправление на страницу main
+          this.router.navigate(['/main']); 
         },
         (error) => {
-          // Обработка ошибок аутентификации
           console.error('Login failed:', error);
           this.errorMessage = 'Invalid email or password. Please try again.';
         }

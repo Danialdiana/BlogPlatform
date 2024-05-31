@@ -1,4 +1,3 @@
-// Подключение необходимых модулей и настройка приложения
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -9,23 +8,20 @@ const expressSession = require('express-session');
 const flash = require('connect-flash');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
+const axios = require('axios');
+const { ApolloServer, gql } = require('apollo-server-express');
 
-// Подключение модели пользователя
+
 const User = require('./models/user');
 
-// Создание экземпляра приложения Express
 const app = express();
 
-// Подключение маршрутов
 const blogRoutes = require('./routes/index');
 
-// Настройка приложения
 app.use(cors());
 app.use(bodyParser.json());
 
-// Подключение к базе данных MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.6/university', 
-{
+mongoose.connect('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.6/university', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -35,7 +31,6 @@ db.once('open', () => {
   console.log('Успешное подключение к базе данных');
 });
 
-// Настройка сеанса Express и подключение модуля flash
 app.use(expressSession({ 
   secret: 'diana', 
   resave: false, 
@@ -75,6 +70,57 @@ passport.deserializeUser((id, done) => {
     });
 });
 
+const typeDefs = gql`
+  type Fact {
+    fact: String
+  }
+
+  type Query {
+    facts: [Fact]
+  }
+`;
+
+// Define GraphQL resolvers
+const resolvers = {
+  Query: {
+    facts: async () => {
+      try {
+        const response = await axios.get('https://api.api-ninjas.com/v1/facts', {
+          headers: { 'X-Api-Key': '1pOanPeQTuRzQLlh5G93hw==WH9yUyUrSpAqYR12' }
+        });
+        return response.data.map(fact => ({ fact: fact.fact }));
+      } catch (error) {
+        console.error('Error fetching facts:', error);
+        throw new Error('Не удалось получить факты');
+      }
+    }
+  }
+};
+
+const server = new ApolloServer({ typeDefs, resolvers });
+
+async function startServer() {
+  await server.start();
+  server.applyMiddleware({ app });
+}
+
+startServer().catch(error => {
+  console.error('Error starting server:', error.message);
+});
+
+app.get('/api/facts', async (req, res) => {
+  try {
+    const response = await axios.get('https://api.api-ninjas.com/v1/facts', {
+      headers: { 'X-Api-Key': '1pOanPeQTuRzQLlh5G93hw==WH9yUyUrSpAqYR12' }
+    });
+    res.json(JSON.stringify(response.data)); // Преобразование объекта в JSON-строку
+  } catch (error) {
+    console.error('Error fetching facts:', error);
+    res.status(500).json({ error: 'Не удалось получить факты' });
+  }
+});
+
+
 
 app.use('/', blogRoutes);
 
@@ -82,3 +128,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порте ${PORT}`);
 });
+

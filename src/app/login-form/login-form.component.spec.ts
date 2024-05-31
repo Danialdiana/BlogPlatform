@@ -21,7 +21,7 @@ describe('LoginFormComponent', () => {
         { provide: UserService, useValue: mockAuthService },
         { provide: Router, useValue: mockRouter }
       ],
-      imports: [ReactiveFormsModule] // Добавляем ReactiveFormsModule для работы с формами
+      imports: [ReactiveFormsModule] 
     });
 
     fixture = TestBed.createComponent(LoginFormComponent);

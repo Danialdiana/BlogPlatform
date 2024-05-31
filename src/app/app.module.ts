@@ -16,6 +16,11 @@ import { DeleteBlogComponent } from './delete-blog/delete-blog.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CreateStartupComponent } from './create-startup/create-startup.component';
+import { ListStartupComponent } from './list-startup/list-startup.component';
+import { SinglestartupComponent } from './singlestartup/singlestartup.component';
+import { InvestorsListComponent } from './investors-list/investors-list.component';
+
 
 
 
@@ -30,6 +35,11 @@ const routes: Routes = [
   { path: 'blogs/:id', component: SingleBlogComponent } ,
   { path: 'blogs/update/:id', component: UpdateBlogComponent } ,
   { path: 'blogs/delete/:id', component: DeleteBlogComponent } ,
+  { path: 'startups', component: ListStartupComponent } , 
+  { path: 'createStartup', component: CreateStartupComponent } ,
+  { path: 'startups/:id', component: SinglestartupComponent } ,
+  { path: 'investors', component: InvestorsListComponent } , 
+
 
 
 
@@ -46,7 +56,11 @@ const routes: Routes = [
     SingleBlogComponent,
     UpdateBlogComponent,
     DeleteBlogComponent,
-    ProfileComponent
+    ProfileComponent,
+    CreateStartupComponent,
+    ListStartupComponent,
+    SinglestartupComponent,
+    InvestorsListComponent
   ],
   imports: [
     BrowserModule,

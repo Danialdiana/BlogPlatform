@@ -9,6 +9,8 @@ const User = require('../models/user');
 const Comment = require('../models/comment');
 const jwt = require('jsonwebtoken');
 const passportConfig = require('../passportConfig');
+const Startup = require('../models/startup');
+
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
@@ -58,8 +60,7 @@ router.get('/blogs', async (req, res) => {
 
 
 router.post('/register', async (req, res) => {
-  const { username, email, password } = req.body;
-  const image = req.file.filename; 
+  const { username, email, password, status } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -73,7 +74,7 @@ router.post('/register', async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      image
+      status: status // Добавление статуса пользователя
     });
 
     const savedUser = await newUser.save();
@@ -82,6 +83,7 @@ router.post('/register', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -239,5 +241,102 @@ router.get('/blogs', async (req, res) => {
   }
 });
 
+router.post('/startups', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+    const newStartup = new Startup({
+      title: req.body.title,
+      description: req.body.description,
+      contact: req.body.contact,
+      user: req.user._id
+    });
 
+    const savedStartup = await newStartup.save();
+    res.status(201).json({ message: 'Startup created successfully', startup: savedStartup });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/startups', async (req, res) => {
+  try {
+      const startups = await Startup.find();
+      res.status(200).json(startups);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
+
+
+
+// Поиск стартапов
+router.get('/startups/search', async (req, res) => {
+  try {
+    const query = req.query.q;
+    const startups = await Startup.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { description: { $regex: query, $options: 'i' } }
+      ]
+    });
+    res.json(startups);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Получение стартапа по ID
+router.get('/startups/:id', async (req, res) => {
+  try {
+    const startup = await Startup.findById(req.params.id);
+    if (!startup) {
+      return res.status(404).json({ message: 'Startup not found' });
+    }
+    res.json(startup);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.put('/startups/:id', async (req, res) => {
+  try {
+    const startupId = req.params.id;
+    const updatedData = req.body;
+
+    const updatedStartup = await Startup.findByIdAndUpdate(startupId, updatedData, { new: true });
+
+    if (!updatedStartup) {
+      return res.status(404).json({ message: 'Startup not found' });
+    }
+
+    res.json(updatedStartup);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.delete('/startups/:id', async (req, res) => {
+  try {
+    const startupId = req.params.id;
+
+    const deletedStartup = await Startup.findByIdAndDelete(startupId);
+
+    if (!deletedStartup) {
+      return res.status(404).json({ message: 'Startup not found' });
+    }
+
+    res.json({ message: 'Startup deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/investors', async (req, res) => {
+  try {
+    // Находим пользователей с статусом "инвестор"
+    const investors = await User.find({ status: 'investor' });
+    res.json(investors);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 module.exports = router;

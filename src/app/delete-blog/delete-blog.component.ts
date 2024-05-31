@@ -24,7 +24,6 @@ export class DeleteBlogComponent implements OnInit {
 
   deleteBlog(): void {
     this.blogService.deleteBlog(this.blogId).subscribe(() => {
-      // После успешного удаления блога перенаправляемся на страницу со списком блогов
       this.router.navigate(['/blogs']);
     });
   }

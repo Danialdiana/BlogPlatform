@@ -20,6 +20,8 @@ export class RegisterFormComponent implements OnInit {
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      status: ['', [Validators.required]],
+
     });
   }
 
@@ -29,7 +31,6 @@ export class RegisterFormComponent implements OnInit {
         this.router.navigate(['/login']);
       });
     } else {
-      // Form is invalid, handle appropriately (e.g., show error messages)
     }
   }
 

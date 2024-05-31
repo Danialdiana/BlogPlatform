@@ -4,6 +4,8 @@ import { BlogService } from '../blog.service';
 import { UserService } from '../user.service';
 import { User } from '../user.module';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute,Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-create-blog',
@@ -12,15 +14,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CreateBlogComponent implements OnInit {
   blogForm: FormGroup;
-  selectedFile: File | undefined; // Initialize selectedFile as undefined
+  selectedFile: File | undefined; 
 
-  currentUser: User | null = null; // Initialize currentUser as null
+  currentUser: User | null = null; 
 
   constructor(
     private formBuilder: FormBuilder,
     private blogService: BlogService,
     private authService: UserService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.blogForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -29,7 +32,7 @@ export class CreateBlogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCurrentUser(); // Call the method to get current user info
+    this.getCurrentUser(); 
   }
 
 
@@ -37,14 +40,12 @@ export class CreateBlogComponent implements OnInit {
     this.authService.getCurrentUser().subscribe(
       (user: User) => {
         if (user) {
-          this.currentUser = user; // Assign the user object to currentUser
+          this.currentUser = user; 
           console.log('Текущий пользователь:', user);
-          // Additional actions with the current user after successful retrieval
         }
       },
       (error) => {
         console.error('Ошибка при получении информации о текущем пользователе:', error);
-        // Handling errors while fetching user information
       }
     );
   }
@@ -74,11 +75,10 @@ export class CreateBlogComponent implements OnInit {
       this.blogService.createBlog(title, content, this.selectedFile, this.currentUser._id).subscribe(
         (response) => {
           this.snackBar.open('Блог успешно опубликован', 'Закрыть', { duration: 3000 });
-          // Дополнительная логика после успешной публикации блога
+          this.router.navigate(['/main']);
         },
         (error) => {
           this.snackBar.open('Ошибка при публикации блога', 'Закрыть');
-          // Дополнительная обработка ошибок
         }
       );
     } else {

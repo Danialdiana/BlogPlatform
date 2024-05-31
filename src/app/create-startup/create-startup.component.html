@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="/assets/css/main.css" />
+<header class="major">
+  <h2>Жаңа стартап қосу</h2>
+</header>
+
+<div class="container text-center">
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-12">
+      <form [formGroup]="createStartupForm" (ngSubmit)="onSubmit()" class="form-group">
+        <div class="row mt-5">
+          <div class="input-field col s6">
+            <label for="title">Тақырып:</label>
+            <input type="text" formControlName="title" class="form-control" placeholder="Тақырыпты енгізіңіз..." id="title">
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="input-field col s6">
+            <label for="description">Сипаттама:</label>
+            <textarea formControlName="description" class="form-control" placeholder="Сипаттаманы енгізіңіз..." id="description"></textarea>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="input-field col s6">
+            <label for="contact">Байланыс:</label>
+            <input type="text" formControlName="contact" class="form-control" placeholder="Байланыс ақпаратын енгізіңіз..." id="contact">
+          </div>
+        </div>
+      
+        <div class="row mt-5">
+          <div class="input-field col s12">
+            <button class="btn btn-outline-dark right" type="submit">Жариялау</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -8,7 +8,7 @@ import { UserService } from './user.service';
 })
 export class CommentService {
 
-  private serverUrl = 'http://localhost:3000'; // URL вашего сервера 
+  private serverUrl = 'http://localhost:3000'; 
  
   constructor(private  http: HttpClient, private userService: UserService) { } 
  

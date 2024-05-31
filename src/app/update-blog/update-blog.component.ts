@@ -9,7 +9,7 @@ import { BlogService } from '../blog.service';
 })
 export class UpdateBlogComponent implements OnInit {
   blogId!: string;
-  updatedBlogData: any = {}; // Обновленные данные блога
+  updatedBlogData: any = {}; 
 
   constructor(
     private route: ActivatedRoute,
@@ -20,7 +20,6 @@ export class UpdateBlogComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.blogId = params['id'];
-      // Получаем текущие данные блога по ID и используем их для обновления
       this.blogService.getBlogById(this.blogId).subscribe(blog => {
         this.updatedBlogData = blog;
       });
@@ -29,7 +28,6 @@ export class UpdateBlogComponent implements OnInit {
 
   updateBlog(): void {
     this.blogService.updateBlog(this.blogId, this.updatedBlogData).subscribe(() => {
-      // После успешного обновления блога перенаправляемся на страницу блога
       this.router.navigate(['/blogs', this.blogId]);
     });
   }

@@ -14,9 +14,7 @@ export class SearchBarComponent {
 
   searchPost(): void {
     this.blogService.searchPostByTitle(this.searchTerm).subscribe((result) => {
-      // Обработка результатов поиска, например, отображение найденных постов
       console.log('Результаты поиска:', result);
-      // Далее можете сохранить результаты поиска для отображения в компоненте списка постов
     }, (error) => {
       console.error('Ошибка при поиске поста:', error);
     });

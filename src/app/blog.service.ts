@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class BlogService {
 
-  private serverUrl = 'http://localhost:3000'; // URL вашего сервера
+  private serverUrl = 'http://localhost:3000'; 
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +16,7 @@ export class BlogService {
     formData.append('title', title);
     formData.append('content', content);
     formData.append('user', user);
-    formData.append('image', image); // Add image with its name
+    formData.append('image', image); 
   
     return this.http.post<any>(`${this.serverUrl}/blogs`, formData);
   }

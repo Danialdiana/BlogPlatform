@@ -1,0 +1,21 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Номерок</th>
+          <th>Имя</th>
+          <th>Электронная почта</th>
+          <th>Ссылка для чата</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let investor of investors; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ investor.username }}</td>
+          <td>{{ investor.email }}</td>
+          <td><a href="ссылка">Чат с {{ investor.name }}</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

@@ -21,7 +21,6 @@ export class SingleBlogComponent implements OnInit {
   comments: any[] = [];
   userId: User | null = null;
 
-  // Добавим переменные для редактирования комментария
   editingCommentId: string | null = null;
   editingCommentContent: string = '';
   showDeleteConfirmation: boolean = false;
@@ -81,18 +80,14 @@ export class SingleBlogComponent implements OnInit {
       const user = this.user;
 
       if (this.editingCommentId) {
-        // Вызов метода для редактирования комментария
         this.editComment(this.editingCommentId, content);
       } else {
-        // Вызов метода для создания нового комментария
         this.createComment(blog, content, user);
       }
 
-      // Сброс переменных для редактирования
       this.editingCommentId = null;
       this.editingCommentContent = '';
 
-      // Очистка формы
       this.commentForm.reset();
     }
   }
@@ -101,7 +96,7 @@ export class SingleBlogComponent implements OnInit {
     this.commentService.createComment(blog, content, user).subscribe(
       newComment => {
         console.log('Комментарий успешно добавлен:', newComment);
-        this.getCommentsByBlogId(blog); // Обновление списка комментариев после успешного добавления
+        this.getCommentsByBlogId(blog); 
       },
       error => {
         console.error('Ошибка при добавлении комментария:', error);
@@ -121,14 +116,11 @@ export class SingleBlogComponent implements OnInit {
     );
   }
 
-  // Функция для заполнения формы редактирования комментария
   fillEditCommentForm(commentId: string, content: string): void {
     this.editingCommentId = commentId;
     this.editingCommentContent = content;
     this.commentForm.patchValue({ content });
   }
-
-  // Функция для отмены редактирования комментария
   cancelEditComment(): void {
     this.editingCommentId = null;
     this.editingCommentContent = '';
@@ -167,7 +159,7 @@ confirmDeleteBlog(): void {
   this.blogService.deleteBlog(this.blog?._id).subscribe(
     () => {
       console.log('Блог успешно удален');
-      this.router.navigate(['/blogs']);  // Перенаправление пользователя после успешного удаления блога
+      this.router.navigate(['/blogs']); 
     },
     error => {
       console.error('Ошибка при удалении блога:', error);
@@ -180,7 +172,6 @@ cancelDeleteBlog(): void {
   this.showDeleteConfirmation = false;
 }
 
-  // Добавим этот метод, чтобы управлять отображением/скрытием формы редактирования в шаблоне
   isEditingComment(commentId: string): boolean {
     return this.editingCommentId === commentId;
   }
@@ -190,7 +181,6 @@ cancelDeleteBlog(): void {
 
 
   goToUpdateBlog(id: string): void {
-    // Перенаправление на страницу для обновления блога с определенным ID
     this.router.navigate(['/blogs/update', id]);
   }
 }

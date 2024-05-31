@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <title>Ой бөліс</title>
+  </head>
+  <body>
+    <div class="container mt-2 mb-2 pt-5 pb-5" id="article-grid">
+        <div class="row justify-content-center">
+          <div class="col-lg-12">
+            <div class="input-group mb-3">
+              <input type="text" [(ngModel)]="searchQuery" (input)="onSearchInputChange()" placeholder="Search..." class="form-control">
+            </div>
+          </div>
+        </div>
+      
+        <section>
+          <div class="posts">
+            <article *ngFor="let startup of isSearchActive ? filteredStartups : startups" (click)="goToSingleStartup(startup._id)">
+              <h3>{{ startup.title }}</h3>
+              <p>{{ startup.description | slice:0:100 }}...</p>
+              <ul class="actions">
+                <li><a href="#" class="button">Толығырақ</a></li>
+              </ul>
+            </article>
+          </div>
+        </section>
+      </div>
+      
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  </body>
+</html>

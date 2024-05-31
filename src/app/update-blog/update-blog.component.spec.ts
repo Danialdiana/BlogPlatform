@@ -32,7 +32,7 @@ describe('UpdateBlogComponent', () => {
   });
 
   it('should fetch blog data on ngOnInit', () => {
-    const blogData = { /* mock your blog data here */ };
+    const blogData = {  };
     mockBlogService.getBlogById.and.returnValue(of(blogData));
 
     component.ngOnInit();

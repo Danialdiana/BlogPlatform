@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../blog.service';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
+import { FactServiceService } from '../fact-service.service';
+import { DomSanitizer } from '@angular/platform-browser';
+
+
 
 
 @Component({
@@ -16,35 +20,37 @@ export class ListBlogComponent implements OnInit {
     searchResults: any[] = [];
   blogs: any[] = [];
   users: any[] = [];
+  imageUrl: any;
+  facts: any[] = [];
 
-  constructor(private blogService: BlogService,private router: Router,private userService: UserService) { }
+  constructor(private blogService: BlogService,private router: Router,private userService: UserService,private factService: FactServiceService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.getBlogList();
+    this.loadFacts(1);
   }
   
   getBlogList(): void {
     this.blogService.getBlogs()
       .subscribe(data => {
-        this.blogs = data; // Заполнение массива блог-постов, полученных из сервиса
+        this.blogs = data; 
       });
   }
 
   getUserList(): void {
     this.userService.getUsers().subscribe(
       (users: any[]) => {
-        this.users = users; // Заполнение массива this.users полученными данными о пользователях
+        this.users = users;
       },
       (error) => {
         console.error('Ошибка при получении списка пользователей:', error);
-        // Обработка ошибок при получении списка пользователей
       }
     );
   }
 
   getUserName(userId: string): string {
     const foundUser = this.users.find(user => user._id === userId);
-    return foundUser ? foundUser.name : 'Unknown'; // Если пользователя не найдено, выводим 'Unknown'
+    return foundUser ? foundUser.name : 'Unknown'; 
   }
 
 
@@ -54,20 +60,28 @@ export class ListBlogComponent implements OnInit {
   }
 
   onSearchInputChange(): void {
-    // При изменении ввода выполняем поиск и обновляем результаты
     this.applySearch();
   }
 
   applySearch(): void {
-    // Применяем фильтр на основе поискового запроса
     this.filteredBlogs = this.blogs.filter(blog =>
       blog.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       blog.content.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
 
-    // Устанавливаем флаг активации поиска
     this.isSearchActive = this.searchQuery.length > 0;
   }
+
+  loadFacts(limit: number) {
+    this.factService.getFacts(limit).subscribe(
+      data => {
+        this.facts = JSON.parse(data); // Преобразование JSON-строки обратно в объект
+      },
+      error => {
+        console.error('Error fetching facts:', error);
+      }
+      );
+    }
 
   
 }

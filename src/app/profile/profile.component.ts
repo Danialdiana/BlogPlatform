@@ -7,7 +7,7 @@ import { UserService } from '../user.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  currentUser: any; // Переменная для хранения текущего пользователя
+  currentUser: any; 
 
   constructor(private userService: UserService) { }
 
@@ -22,7 +22,6 @@ export class ProfileComponent implements OnInit {
       },
       (error: any) => {
         console.error('Error loading current user:', error);
-        // Обработка ошибок при загрузке пользователя
       }
     );
   }

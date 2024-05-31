@@ -28,7 +28,7 @@ describe('BlogService', () => {
     const title = 'Test Title';
     const content = 'Test Content';
     const image = new File([''], 'test.jpg', { type: 'image/jpeg' });
-    const user = '123'; // Replace with an actual user ID
+    const user = '123'; 
 
     blogService.createBlog(title, content, image, user).subscribe((response) => {
       expect(response).toBeDefined();
@@ -41,7 +41,7 @@ describe('BlogService', () => {
     expect(req.request.body.get('user')).toEqual(user);
     expect(req.request.body.get('image')).toEqual(image);
     
-    req.flush({}); // You can modify the response body as needed
+    req.flush({}); 
   });
 
   it('should get blogs', () => {
@@ -57,5 +57,4 @@ describe('BlogService', () => {
     req.flush(mockBlogs);
   });
 
-  // Add similar tests for getBlogById, updateBlog, and deleteBlog methods
 });
